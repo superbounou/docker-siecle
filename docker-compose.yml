@@ -2,10 +2,7 @@ version: "3"
 
 services:
    crond:
-    build: sieclecrond
-    volumes:
-      - ${VOLUME_PATH}/config/settings.json:/config/settings.json
-    restart: always
-   gui:
-     build:
-    
+     build: crond
+     volumes:
+       - ${VOLUME_PATH}/crond/etc/crontab:/etc/cron.d/crontab
+     restart: always
