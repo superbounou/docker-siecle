@@ -1,11 +1,17 @@
-FROM alpine:latest
-MAINTAINER d@d.ru
- 
-RUN apk update && apk add dcron wget rsync ca-certificates && rm -rf /var/cache/apk/*
+FROM alpine
 
-RUN mkdir -p /var/log/cron && mkdir -m 0644 -p /var/spool/cron/crontabs && touch /var/log/cron/cron.log && mkdir -m 0644 -p /etc/cron.d
+MAINTAINER Nicolas Bounoughaz
 
-COPY /scripts/* /
+RUN apk add --update \
+    python \
+    python-dev \
+    py-pip \
+  && pip install virtualenv \
+  && rm -rf /var/cache/apk/*
 
-ENTRYPOINT ["/docker-entry.sh"]
-CMD ["/docker-cmd.sh"]
+WORKDIR /app
+
+COPY . /app
+RUN virtualenv /env && /env/bin/pip install -r /app/requirements.txt
+
+CMD ["/env/bin/python", "project-cli.py"]

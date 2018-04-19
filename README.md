@@ -1,42 +1,30 @@
-# docker-alpine-cron
+Sample Python application to bootsrap idea ship with :
 
-Dockerfile and scripts for creating image with Cron based on Alpine  
-Installed packages: dcron wget rsync ca-certificates  
+* Built-in CLI with fire
+* Config file
+* Basic logging
+* CICD in Gitlab
 
-#### Environment variables:
+# 1. HOWTO
 
-CRON_STRINGS - strings with cron jobs. Use "\n" for newline (Default: undefined)   
-CRON_TAIL - if defined cron log file will read to *stdout* by *tail* (Default: undefined)   
-By default cron running in foreground  
+## 1.1 Setup virtualenv
 
-#### Cron files
-- /etc/cron.d - place to mount custom crontab files  
-
-When image will run, files in */etc/cron.d* will copied to */var/spool/cron/crontab*.   
-If *CRON_STRINGS* defined script creates file */var/spool/cron/crontab/CRON_STRINGS*  
-
-#### Log files
-Log file by default placed in /var/log/cron/cron.log 
-
-#### Simple usage:
 ```
-docker run --name="alpine-cron-sample" -d \
--v /path/to/app/conf/crontabs:/etc/cron.d \
--v /path/to/app/scripts:/scripts \
-xordiv/docker-alpine-cron
+./setup.sh
 ```
 
-#### With scripts and CRON_STRINGS
+## 1.2 Ship app into Docker
+
 ```
-docker run --name="alpine-cron-sample" -d \
--e 'CRON_STRINGS=* * * * * root /scripts/myapp-script.sh'
--v /path/to/app/scripts:/scripts \
-xordiv/docker-alpine-cron
+./build.sh
 ```
 
-#### Get URL by cron every minute
+## 1.3 Deploy via Docker Compose
+
 ```
-docker run --name="alpine-cron-sample" -d \
--e 'CRON_STRINGS=* * * * * root wget https://sample.dockerhost/cron-jobs'
-xordiv/docker-alpine-cron
+./run.sh
 ```
+
+# 2. License
+
+This sample is licensed under the [BSD 3-clause license](https://opensource.org/licenses/BSD-3-Clause).
