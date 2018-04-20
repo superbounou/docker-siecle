@@ -15,7 +15,7 @@ class SiecleStage(object): # pylint: disable=too-few-public-methods
     def api(): # pylint: disable=invalid-name
         """FOO"""
         api = ApiDocker()
-        api.list_containers()
+        api.start_crond()
 
 
 class Cli(object):# pylint: disable=too-few-public-methods
