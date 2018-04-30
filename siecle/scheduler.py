@@ -26,10 +26,9 @@ class Scheduler(object):
         """
         Run the scheduler
         """
-        for i, job in enumerate(self.jobs):
+        for job in self.jobs:
             job.start()
         while True:
-            LOGGER.debug('MAIN LOOP')
             time.sleep(1)
 
     def set_crontab(self, path = None):

@@ -14,6 +14,7 @@ class Job(Thread):
         self.container = _container
         self.job = _job
         self.daemon = True
+        self.docker = ApiDocker()
 
     def can_start(self):
         next_exec_delay = int(self.cron.next(default_utc=True))
@@ -26,12 +27,11 @@ class Job(Thread):
     def run(self):
         while True:
             if self.can_start():
-                LOGGER.debug('Start job %s', self.job)
-                docker = ApiDocker()
-                docker_id = docker.get_container_id(self.container)
+                LOGGER.debug('JOB | START | %s | %s', self.container, self.job)
+                docker_id = self.docker.get_container_id(self.container)
                 if docker_id is not None:
-                    LOGGER.info("JOB | RESULT | %s", docker.exec_command(docker_id, self.job))
+                    LOGGER.info("JOB | RESULT | %s | %s", self.container, self.docker.exec_command(docker_id, self.job))
                 else:
-                    LOGGER.warn('Cannot find container named "%s"', self.container)
+                    LOGGER.warn('JOB | ERROR | Cannot find container "%s"', self.container)
                 LOGGER.info('JOB | FINISH | %s | %s', self.container, self.job)
             time.sleep(1)
