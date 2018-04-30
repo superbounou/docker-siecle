@@ -27,12 +27,6 @@ class SchedulerStage(object): # pylint: disable=too-few-public-methods
         """List active containers (debug purpose)"""
         schd = Scheduler()
         schd.start()
-        
-    @staticmethod
-    def job(): # pylint: disable=invalid-name
-        """List active job in crontab (debug purpose)"""
-        schd = Scheduler()
-        schd.set_crontab('crontab')
 
 class Cli(object):# pylint: disable=too-few-public-methods
     """CLI class"""

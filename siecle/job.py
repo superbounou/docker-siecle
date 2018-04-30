@@ -1,4 +1,5 @@
 from crontab import CronTab
+from .api import ApiDocker
 
 class Job(object):
     """Job class"""
@@ -13,4 +14,7 @@ class Job(object):
             self.exec_job()
 
     def exec_job(self):
-        print self.job
+        docker = ApiDocker()
+        docker_id = docker.get_container_id(self.container)
+        if docker_id is not None:
+            print(docker.exec_command(docker_id, self.job))
