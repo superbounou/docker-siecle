@@ -8,7 +8,7 @@ RUN apk add --update \
   && rm -rf /var/cache/apk/*
 
 COPY . /app
-COPY crontab.dist /etc/crontab
+COPY crontab.dist /app/crontab
 
 RUN virtualenv /env && /env/bin/pip install -r /app/requirements.txt
 

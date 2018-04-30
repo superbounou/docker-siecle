@@ -2,7 +2,7 @@ version: "3"
 
 services:
   siecle:
-    image: siecle
+    image: superbounou/siecle
     volumes:
-      - "${PWD}/crontab:/etc/crontab"
+      - "/var/run/docker.sock:/var/run/docker.sock"
     restart: always

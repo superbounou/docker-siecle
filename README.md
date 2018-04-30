@@ -1,29 +1,32 @@
 Docker Siecle
 =============
 
-Docker Siecle is job scheduler using Crontab syntax. It can execute jobs inside container.
+Docker Siecle is job scheduler using Crontab syntax. It can execute jobs inside containers.
 
-# 1. HOWTO
+# Quickstart
 
-## 1.1 Configure crontab
-
-Crontab sample :
+## Demo
 
 ```
-# m h  dom mon dow  container_name command
-0 O * * *       mysql echo "everyfive five minute"
+docker run -v /var/run/docker.sock:/var/run/docker.sock --name siecle superbounou/siecle
 ```
 
-Save the crontab file as a volume. You have an example in `docker-compose.yml`.
+## Setup the crontab
 
-## 1.2 Run the scheduler
+The syntax is exactly the same as a classical crontab. The only difference is the add of the container name.
 
 ```
-./run.sh
+# m h  dom mon dow   container        command
+
+* * * * *            siecle           /bin/sh -c "echo 'hi there' && sleep 42"
 ```
 
-# 2. Notes
+Or use `docker-compose.yml`.
 
-It's an *experimantal* project. Feel free to contribute :)
+# Notes
 
-# 3. Licence
+It's an *experimental* project. Feel free to contribute :)
+
+# Licence
+
+This program is under BEER-WARE LICENSE ;)
