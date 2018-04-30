@@ -18,9 +18,9 @@ try:
     logger = logging.getLogger()
     stream_handler = logging.StreamHandler()
     formatter = logging.Formatter('%(asctime)s :: %(levelname)s :: %(message)s')
-    file_handler = RotatingFileHandler('siecle.log', 'a', 1000000, 1)
+    file_handler = RotatingFileHandler(CONFIG.get('log','path'), 'a', 1000000, 1)
 
-    if CONFIG.get('display', 'log_level') == 'debug':
+    if CONFIG.get('log', 'log_level') == 'debug':
         logger.setLevel(logging.DEBUG)
         file_handler.setLevel(logging.DEBUG)
         stream_handler.setLevel(logging.DEBUG)

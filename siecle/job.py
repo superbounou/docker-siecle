@@ -1,5 +1,8 @@
+import logging
 from crontab import CronTab
 from .api import ApiDocker
+
+LOGGER = logging.getLogger(__name__)
 
 class Job(object):
     """Job class"""
@@ -10,6 +13,8 @@ class Job(object):
 
     def run(self):
         next_exec_delay = int(self.cron.next(default_utc=True))
+        LOGGER.debug('Delay %s sec on %s before exec "%s"', next_exec_delay,
+                     self.container, self.job)
         if next_exec_delay == 0:
             self.exec_job()
 
@@ -17,4 +22,6 @@ class Job(object):
         docker = ApiDocker()
         docker_id = docker.get_container_id(self.container)
         if docker_id is not None:
-            print(docker.exec_command(docker_id, self.job))
+            LOGGER.info(docker.exec_command(docker_id, self.job))
+        else:
+            LOGGER.warn('Cannot find container named "%s"', self.container)

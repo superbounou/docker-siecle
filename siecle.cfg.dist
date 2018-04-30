@@ -1,5 +1,9 @@
+[cron]
+crontab = crontab
+
 [docker]
 socket = unix://var/run/docker.sock
 
-[display]
+[log]
 log_level = info
+path = siecle.log
