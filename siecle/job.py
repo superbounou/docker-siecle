@@ -27,11 +27,13 @@ class Job(Thread):
     def run(self):
         while True:
             if self.can_start():
-                LOGGER.debug('JOB | START | %s | %s', self.container, self.job)
+                LOGGER.info('JOB | START | %s | %s', self.container, self.job)
                 docker_id = self.docker.get_container_id(self.container)
                 if docker_id is not None:
+                    start = time.time()
                     LOGGER.info("JOB | RESULT | %s | %s", self.container, self.docker.exec_command(docker_id, self.job))
+                    end = time.time()
                 else:
                     LOGGER.warn('JOB | ERROR | Cannot find container "%s"', self.container)
-                LOGGER.info('JOB | FINISH | %s | %s', self.container, self.job)
+                LOGGER.info('JOB | FINISH | %s | %s | %i sec', self.container, self.job, end - start)
             time.sleep(1)
