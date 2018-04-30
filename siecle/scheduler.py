@@ -35,5 +35,5 @@ class Scheduler(object):
             frequency = line[0:5]
             frequency = " ".join(frequency)
             # avoid if it's a comment
-            if re.match(r'^#.*', frequency) is None:
+            if re.match(r'^#.*', frequency) is None and len(line) > 7:
                 self.jobs.append(Job(" ".join(line[6:]), frequency, line[5]))

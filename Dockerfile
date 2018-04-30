@@ -1,7 +1,5 @@
 FROM alpine
 
-MAINTAINER Nicolas Bounoughaz
-
 RUN apk add --update \
     python \
     python-dev \
@@ -9,9 +7,11 @@ RUN apk add --update \
   && pip install virtualenv \
   && rm -rf /var/cache/apk/*
 
-WORKDIR /app
-
 COPY . /app
+COPY crontab.dist /etc/crontab
+
 RUN virtualenv /env && /env/bin/pip install -r /app/requirements.txt
 
-CMD ["/env/bin/python", "project-cli.py"]
+WORKDIR /app
+
+CMD ["/env/bin/python", "siecle.py","scheduler","start"]
