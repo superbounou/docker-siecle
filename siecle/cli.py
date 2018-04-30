@@ -19,17 +19,24 @@ class DockerStage(object): # pylint: disable=too-few-public-methods
         api = ApiDocker()
         api.list_containers()
 
+#pylint: disable=invalid-name
+class SchedulerStage(object): # pylint: disable=too-few-public-methods
+    """This class manage CLI interactions"""
     @staticmethod
-    def crontab():
-        """
-        Parse CronTab
-        """
+    def start(): # pylint: disable=invalid-name
+        """List active containers (debug purpose)"""
         schd = Scheduler()
-        schd.parse_crontab('crontab')
-
+        schd.start()
+        
+    @staticmethod
+    def job(): # pylint: disable=invalid-name
+        """List active job in crontab (debug purpose)"""
+        schd = Scheduler()
+        schd.set_crontab('crontab')
 
 class Cli(object):# pylint: disable=too-few-public-methods
     """CLI class"""
     def __init__(self):
         """CLI constructor"""
         self.docker = DockerStage()
+        self.scheduler = SchedulerStage()

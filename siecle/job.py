@@ -1,15 +1,16 @@
-"""Class example"""
-import ConfigParser
-
-CONFIG = ConfigParser.ConfigParser()
-CONFIG.read("siecle.cfg")
+from crontab import CronTab
 
 class Job(object):
-    """CLI class"""
-    def __init__(self, _job, _delay = 0, _container = ""):
-        self.delay = 0
-        self.container = ""
-        self.job = ""
+    """Job class"""
+    def __init__(self, _job, _cron, _container = None):
+        self.cron = CronTab(_cron)
+        self.container = _container
+        self.job = _job
 
     def run(self):
-        print "run"
+        next_exec_delay = int(self.cron.next(default_utc=True))
+        if next_exec_delay == 0:
+            self.exec_job()
+
+    def exec_job(self):
+        print self.job
