@@ -15,21 +15,24 @@ class Scheduler(object):
     def __init__(self, _crontab = None):
         """CLI constructor"""
         self.jobs = []
-        if _crontab is not None:
-            self.set_crontab(_crontab)
+        self.crontabpath = _crontab
+        if self.crontabpath is not None:
+            self.crontabpath = _crontab
         else:
-            self.set_crontab(CONFIG.get('cron','crontab'))
+            self.crontabpath = CONFIG.get('cron','crontab')
+        self.set_crontab(self.crontabpath)
 
     def start(self):
         """
         Run the scheduler
         """
+        for i, job in enumerate(self.jobs):
+            job.start()
         while True:
-            for job in self.jobs:
-                job.run()
+            LOGGER.debug('MAIN LOOP')
             time.sleep(1)
 
-    def set_crontab(self, path):
+    def set_crontab(self, path = None):
         """
         Parse crontab file and extract job
         """
@@ -42,5 +45,5 @@ class Scheduler(object):
             # avoid if it's a comment$
             if re.match(r'^#.*', frequency) is None and len(items) > 1:
                 command, container = " ".join(items[6:]), items[5]
-                LOGGER.info('JOB | CREATE | %s | %s | %s', frequency, command, container)
+                LOGGER.info('JOB | CREATE | %s | %s | %s', container, frequency, command)
                 self.jobs.append(Job(command, frequency, container))
