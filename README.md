@@ -1,30 +1,29 @@
-Sample Python application to bootsrap idea ship with :
+Docker Siecle
+=============
 
-* Built-in CLI with fire
-* Config file
-* Basic logging
-* CICD in Gitlab
+Docker Siecle is job scheduler using Crontab syntax. It can execute jobs inside container.
 
 # 1. HOWTO
 
-## 1.1 Setup virtualenv
+## 1.1 Configure crontab
+
+Crontab sample :
 
 ```
-./setup.sh
+# m h  dom mon dow  container_name command
+0 O * * *       mysql echo "everyfive five minute"
 ```
 
-## 1.2 Ship app into Docker
+Save the crontab file as a volume. You have an example in `docker-compose.yml`.
 
-```
-./build.sh
-```
-
-## 1.3 Deploy via Docker Compose
+## 1.2 Run the scheduler
 
 ```
 ./run.sh
 ```
 
-# 2. License
+# 2. Notes
 
-This sample is licensed under the [BSD 3-clause license](https://opensource.org/licenses/BSD-3-Clause).
+It's an *experimantal* project. Feel free to contribute :)
+
+# 3. Licence
