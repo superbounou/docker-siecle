@@ -5,3 +5,4 @@ libs/*
 *json
 *log
 crontab
+*cfg
